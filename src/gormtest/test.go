@@ -21,6 +21,8 @@ func main() {
 	defer db.Close()
 
 	// Migrate the schema
+	// 其作用主要是刷新数据库中的字段，使其保持最新，
+	// 即让数据库之前存储的记录的表格字段和程序中最新使用的表格字段保持一致（只增不减），增加的使用默认值添加
 	db.AutoMigrate(&Product{})
 
 	// 创建
