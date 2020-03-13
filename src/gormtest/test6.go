@@ -73,10 +73,12 @@ func main() {
 	var user5 User
 	user5.ID = 889
 	// update users set name=tuweiguang5 where id=889;
+	// 忽略age字段
 	db.Model(&user5).Select("name").Updates(map[string]interface{}{"name": "tuweiguang5", "age": 28})
 
 	user5.ID = 890
 	// update users set age=29 where id=890;
+	// 指定那么为忽略字段
 	db.Model(&user5).Omit("name").Updates(map[string]interface{}{"name": "tuweiguang6", "age": 29})
 
 	// !!!! 以上所有更新都会触发钩子函数BeforeUpdate, AfterUpdate，会更新updated_at字段，若model没有updated_at字段就算了，

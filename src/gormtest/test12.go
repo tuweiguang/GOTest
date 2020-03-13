@@ -55,12 +55,14 @@ func main() {
 	// SELECT * FROM users;
 	// 不会填充Orders从表数据
 	// 默认是不会自动预加载 需要设置db.Set("gorm:auto_preload", true)
+	// 也就是说users1.Orders是空
 	var users1 []User
 	db.Find(&users1)
 	fmt.Println("user1:", users1)
 
 	// SELECT * FROM users;
 	// 但是会填充Orders从表数据
+	// 也就是说users1.Orders会从orders表读数据
 	var users2 []User
 	db.Preload("Orders").Find(&users2)
 	fmt.Println("user2:", users2)
@@ -70,7 +72,7 @@ func main() {
 	db.Preload("Orders", "price NOT IN (?)", []float64{10, 20}).Find(&user3)
 	fmt.Println("user3:", user3)
 
-	// SELECT * FROM users where username="tuweiguang3" and orders.price not in (10,20);
+	// SELECT * FROM users where username="tuweiguang2" and orders.price not in (10,20);
 	var user4 []User
 	db.Where("Username = ?", "tuweiguang2").Preload("Orders", "price NOT IN (?)", []float64{10, 20}).Find(&user4)
 	fmt.Println("user4:", user4)

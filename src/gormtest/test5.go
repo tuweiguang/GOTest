@@ -30,6 +30,7 @@ func main() {
 	//fmt.Println("user1:",user1)
 
 	/* 选择字段 */
+	// select name,age from users;
 	var user2 []User
 	db.Select("name, age").Find(&user2)
 	fmt.Println("user2:")
@@ -37,6 +38,7 @@ func main() {
 		fmt.Println(v)
 	}
 
+	// select name,age from users;
 	var user3 []User
 	db.Select([]string{"name", "age"}).Find(&user3)
 	fmt.Println("user3:")
@@ -61,6 +63,7 @@ func main() {
 	fmt.Println(ages)
 
 	/* 排序 */
+	// select * from users order by age desc,name;
 	var user4 []User
 	//db.Order("age desc, name").Find(&user4)
 	db.Order("age desc").Order("name").Find(&user4)
@@ -117,7 +120,7 @@ func main() {
 	fmt.Println("user11:", user11, count)
 
 	// 在没有具体对象情况下，Model和Table指定表名
-	// 在又具体对象情况下，根据对象类型，找到对应的表名
+	// 在有具体对象情况下，根据对象类型，找到对应的表名
 	db.Model(&User{}).Where("name = ?", "jinzhu").Count(&count)
 	fmt.Println(count)
 
@@ -184,7 +187,8 @@ func main() {
 
 	// select * from users
 	// join base_meta ON base_meta.id = users.id AND base_meta.email = tuweiguang@foxmail.com
-	// join credit_cards ON credit_cards.user_id = users.id where credit_cards.number = 4111111111111111111
+	// join credit_cards ON credit_cards.user_id = users.id
+	// where credit_cards.number = 4111111111111111111
 	//var user12 []User
 	//db.Joins("JOIN base_meta ON base_meta.id = users.id AND base_meta.email = ?", "tuweiguang@foxmail.com").Joins("JOIN credit_cards ON credit_cards.user_id = users.id").Where("credit_cards.number = ?", "411111111111").Find(&user12)
 

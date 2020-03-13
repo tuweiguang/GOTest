@@ -19,7 +19,7 @@ import (
 //	gorm.Model
 //	Name      string
 //	User      User `gorm:"association_foreignkey:Refer"` // 指定主表Refer字段作为关联外键
-//	UserRefer string                                     // 必须有 “从表名+从表关联字段明”组合的字段，不然关联不起来
+//	UserRefer string                                     // 必须有 “主表名+主表关联字段明”组合的字段，不然关联不起来
 //}
 
 // 2
