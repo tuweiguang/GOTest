@@ -34,7 +34,7 @@ func f22(depth string) (f string, l int) { //calldepth = 1
 
 func main() { //calldepth = 2
 	f, l := f22(os.Args[1])
-	fmt.Printf("%v %v\n", f, l)
+	fmt.Printf("==> %v %v\n", f, l)
 
 	f12(os.Args[1])
 }
