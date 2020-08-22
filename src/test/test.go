@@ -1,35 +1,21 @@
 package main
 
-import "fmt"
-
+//var wg sync.WaitGroup
 func main() {
-	a := 10
-	b := 10
-	defer fmt.Println("defer1")
-	defer func(a int) {
-		//if err := recover(); err != nil {
-		//	log.Printf("recover: %v", err)
-		//}
-		fmt.Println("defer2", a)
-	}(a)
-	defer func() {
-		//if err := recover(); err != nil {
-		//	log.Printf("recover: %v", err)
-		//}
-		fmt.Println("defer3", b)
-	}()
-
-	b = 20
-
-	fmt.Println("main")
-
-	//panic("EDDYCJY.")
-
-	//defer func() {
-	//	if err := recover(); err != nil {
-	//		fmt.Printf("recover: %v", err)
-	//	}
-	//}()
+	//var s [1000]int
+	//for i:=0; i < 1000; i++{
+	//	wg.Add(1)
+	//	go func(a int) {
+	//		time.Sleep(3 * time.Second)
+	//		s[a] = a
+	//		time.Sleep(3 * time.Second)
+	//		wg.Done()
+	//	}(i)
+	//}
 	//
-	//panic("EDDYCJY.")
+	//wg.Wait()
+	//fmt.Println(s)
+	//fmt.Println("end")
+	var a = 100
+	_ = string(a)
 }

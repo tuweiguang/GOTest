@@ -2,36 +2,68 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
+	"os"
 	"time"
 )
 
-func main() {
-	// 调用cancelFunc或者下游goroutine运行超过5s，将关闭下游goroutine
-	ctx, cancelFunc := context.WithTimeout(context.Background(), time.Second*5)
-	ctx = context.WithValue(ctx, "Test", "123456")
-	//defer cancelFunc()
+var MyPrint *log.Logger
 
-	go func() {
-		time.Sleep(time.Second * 2)
-		cancelFunc()
-	}()
-	if t, ok := ctx.Deadline(); ok {
-		fmt.Println(time.Now())
-		fmt.Println(t.String())
+func InitLog() {
+	MyPrint = log.New(os.Stdout, "", log.Ldate|log.Ltime|log.Lshortfile)
+}
+
+func Cdd(ctx context.Context) int {
+	log.Println(ctx.Value("NLJB"))
+	select {
+	// 结束时候做点什么 ...
+	case <-ctx.Done():
+		log.Println("====1====")
+		return -3
 	}
-	go func(ctx context.Context) {
-		fmt.Println(time.Now(), ctx.Value("Test"))
-		for {
-			select {
-			case <-ctx.Done():
-				fmt.Println(time.Now(), ctx.Err())
-				return
-			default:
-				continue
-			}
-		}
-	}(ctx)
+}
 
-	time.Sleep(time.Second * 10)
+func Bdd(ctx context.Context) int {
+	log.Println(ctx.Value("HELLO"))
+	log.Println(ctx.Value("WROLD"))
+	ctx = context.WithValue(ctx, "NLJB", "NULIJIABEI")
+	go log.Println(Cdd(ctx))
+	select {
+	// 结束时候做点什么 ...
+	case <-ctx.Done():
+		log.Println("====2====")
+		return -2
+	}
+}
+func Add(ctx context.Context) int {
+	ctx = context.WithValue(ctx, "HELLO", "WROLD")
+	ctx = context.WithValue(ctx, "WROLD", "HELLO")
+	go log.Println(Bdd(ctx))
+	select {
+	// 结束时候做点什么 ...
+	case <-ctx.Done():
+		log.Println("====3====")
+		return -1
+	}
+}
+func main() {
+	InitLog()
+
+	// 自动取消(定时取消)
+	{
+		timeout := 3 * time.Second
+		ctx, _ := context.WithTimeout(context.Background(), timeout)
+		log.Println(Add(ctx))
+	}
+
+	// 手动取消
+	//  {
+	//      ctx, cancel := context.WithCancel(context.Background())
+	//      go func() {
+	//          time.Sleep(2 * time.Second)
+	//          cancel() // 在调用处主动取消
+	//      }()
+	//      fmt.Println(Add(ctx))
+	//  }
+	time.Sleep(5 * time.Second)
 }
