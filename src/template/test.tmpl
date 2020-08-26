@@ -6,7 +6,21 @@
 <body>
     <p>hello {{ . }}</p>
     <br>
-    <button>按钮</button>
+    <button onclick="window.location.href='/login'">login</button>
+    <input type="button" value="我是一个按钮"
+           onclick="javascript:window.location.href='/login'">
+
+    <input type="button" value="我是一个按钮2" onclick="javascrtpt:jump()">
+
+    <a href="/login">
+        <button>我是一个按钮3</button>
+    </a>
 </body>
 
 </html>
+
+<script>
+    function jump(){
+        window.location.href="/login";
+    }
+</script>
